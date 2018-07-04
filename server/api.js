@@ -21,9 +21,7 @@ var jsonWrite = function(res, ret) {
 
 router.post('/login', (req, res) => {
     var sql = $sql.user.login;    
-    var params = req.body; 
-    console.log("sql",sql);
-    console.log("params",params);
+    var params = req.body;
     conn.query(sql, [params.name], function(err, result) {    
         if (err) {       
             console.log(err);
@@ -31,8 +29,7 @@ router.post('/login', (req, res) => {
         if (result) {
             if(result.length>0){
                 result = {
-                    code: 200,
-                    data: result
+                    code: 200
                 };
             }else{
                 result = {
@@ -40,13 +37,6 @@ router.post('/login', (req, res) => {
                 };
             }
             jsonWrite(res, result);
-            for(var i = 0; i < result.length; i++){
-                console.log("请求回来！",result[i])
-                console.log("请求结果！",typeof result[i],result[i].userpsw);
-                if (result[i].userpsw == params.userpsw) {
-                    res.send("返回回来了！");
-                }
-            }
             res.end('is over');
         }
     })
@@ -57,21 +47,16 @@ router.post('/addUser', (req, res) => {
     var params = req.body; 
     console.log("sql",sql);
     console.log("params",params);
-
     if(params.name && params.age){
         conn.query(sql, [params.name, params.age], function(err, result) {    
             if (err) {       
                 console.log(err);
             }        
             if (result) {
-                jsonWrite(res, result);
-                for(var i = 0; i < result.length; i++){
-                    console.log("请求回来！",result[i])
-                    console.log("请求结果！",typeof result[i],result[i].userpsw);
-                    if (result[i].userpsw == params.userpsw) {
-                        res.send("返回回来了！");
-                    }
+                result = {
+                    code: 200
                 }
+                jsonWrite(res, result);
                 res.end('is over');
             }
         })
